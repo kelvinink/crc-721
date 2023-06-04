@@ -1,10 +1,11 @@
 # Composable BRC-721 (CRC-721)
 
-> **TLDR**: The **Composable BRC-721 (CRC-721)** standard proposed in this document aims to bring the following capabilities to the Ordinal NFT ecosystem:
+> The **Composable BRC-721 (CRC-721)** standard proposed in this document aims to bring the following capabilities to the Ordinal NFT ecosystem:
 > * Composability
-> * The Possibility of Role Assignment within Collections
-> * Heightened Customization Freedom
-> * User-Driven Art Work Creation
+> * Extensibility
+> * Heightened Customization
+> * User-Driven Artwork Creation
+> * Enable Role Assignment within Collections
 > * Reusability of Creative Materials
 > * Streamlined On-Chain Transaction Costs
 
@@ -21,7 +22,7 @@ To address this issue, GBRC-721 suggests storing the components of the images on
 
 However, the aforementioned protocol still faces the following issues:
 
-## Limited Degree of Composability
+## Limited Composability & Extensibility
 
 The GBRC-721 and ORC-721 protocols still exhibit limitations in terms of composability:
 
@@ -37,7 +38,7 @@ To address these limitations, the proposed CRC-721 protocol will enhance the exi
 
 Both GBRC-721 and ORC-721 lack the ability to extend roles. This means that within a collection, only one role can be assigned. However, with the highly flexible composability provided by the CRC-721 protocol, this requirement becomes achievable. In the following example, we will attempt to create a "Robot World" where various robots of different models and styles are members of the "Robot World" collection. Each robot plays a distinct role, possessing unique appearances, abilities, and personalities.
 
-## There is still Room for Improvement in terms of Customization
+## Limited Degree of Customization
 
 In GBRC-721, customization is not possible as both the image assets and the JSON used for minting the NFT are provided by the NFT issuer. Users are limited to selecting from the predetermined minting JSON options. 
 
@@ -45,7 +46,7 @@ On the other hand, ORC-721 offers a lower degree of customization. The key diffe
 
 CRC-721 allows for a higher degree of customization where both the image assets and the minting JSON can be customized by the users. As long as the values fall within the defined range, they are considered valid.
 
-## User-Driven Art Work Creation
+## User-Driven Artwork Creation
 
 As mentioned above, the increased level of customization in CRC-721 empowers users to exercise their creativities. Consequently, a greater extent of creative ownership is delegated to the users.
 
@@ -53,7 +54,7 @@ As mentioned above, the increased level of customization in CRC-721 empowers use
 
 CRC-721 enhances the reusability of image assets by separating them from the Deploy-Inscription. This allows multiple Deploy-Inscriptions to reference the same or multiple sets of image assets.
 
-# CRC-721 Protocl
+# CRC-721 Protocol
 
 The CRC-721 protocol consists of three main components:
 
@@ -71,7 +72,7 @@ Image assets are encoded in spritesheets. Here is an example: [Spritesheet 1](ht
 
 Below is an example of a Deploy-Inscription. Compared to GBRC-721, there are additional fields introduced: `type`, `wl`, and `components`. The removed information includes `trait_types` and `traits` since this information is now included within the image assets. CRC-721 utilizes the `components` field to reference one or more image assets.
 
-The `components` field allows for multiple Deploy-Inscriptions to reference the same image assets, increasing the reusability of image materials. Furthermore, by deploying multiple Deploy -nscriptions and introducing new assets each time, the composability is expanded. This operates in a similar manner to Git, where image assets are akin to new commits, and Deploy-Inscriptions act as tags. You will observe a tree-like referencing structure similar to the diagram below:
+The `components` field allows for multiple Deploy-Inscriptions to reference the same image assets, increasing the reusability of image materials. Furthermore, by deploying multiple Deploy-Inscriptions and introducing new assets each time, the composability is expanded. By indirectly referring to image materials inscribed earlier, CRC-721 enables extensibility of NFT creation. This operates in a similar manner to Git, where image assets are akin to new commits, and Deploy-Inscriptions act as tags. You will observe a tree-like referencing structure similar to the diagram below:
 
 ![](imgs/ins-tree.png)
 
@@ -134,7 +135,7 @@ The `deploy_ins` field points to a specific Deploy-Inscription. If this Deploy-I
 
 The `compose` field specifies how the rendering and composition of the final image are performed. The execution order is from top to bottom. For example, `[0, 2]` will be rendered first, followed by `[0, 6]`, and so on. Taking `[0, 2]` as an example, the 0 refers to the first image asset set. And the 6 refers to the component at index 6 within the first image asset set. 
 
-This can be seen as a double pointer. The first step involves retrieving the Deploy-Inscription using `5c40b1bf6eca38ddeeed8b211d50232959706d63c9aded440fd54369162ffcbei0` from `deploy_ins`. Then, within the Deploy-Inscription, there are two sets of image assets:
+This can be seen as an indirect pointer. The first step involves retrieving the Deploy-Inscription using `5c40b1bf6eca38ddeeed8b211d50232959706d63c9aded440fd54369162ffcbei0` from `deploy_ins`. Then, within the Deploy-Inscription, there are two sets of image assets:
 
 ```json
 "components": [
@@ -318,6 +319,11 @@ Mint TV Skull Json:
 ```
 
 ![tv-skull](imgs/tv-skull.png)
+
+
+The following diagram depict the overall relationship among the inscriptions described above.
+
+![](imgs/inscription-relation.png)
 
 
 # Create Your Own Character in the Robot World
