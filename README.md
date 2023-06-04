@@ -78,8 +78,6 @@ The `components` field allows for multiple Deploy-Inscriptions to reference the 
 
 The `type` field is optional and can be used to assign roles within the collection. Each Deploy-Inscription can assign a new role by specifying the `type`. The number of roles can also be controlled.
 
-The `wl` field is optional and records the Merkle-Root of a whitelist. This allows only whitelisted addresses to mint NFTs.
-
 ```json
 {
     "p": "crc-721",
@@ -88,7 +86,6 @@ The `wl` field is optional and records the Merkle-Root of a whitelist. This allo
     "type": "tv-robot",
     "name": "Vector",
     "supply": 1000,
-    "wl": "7ce5709871231548e44dc1b1bbedd5302e84fb56bb3734672f53f390fe5b2c9di0",
     "dim": "32x32",
     "components": [
         "1c3eba0b3d9535beb691dd3454a472647cce9dadcc80cf6f6321633e372451cci0",
@@ -106,7 +103,6 @@ The `wl` field is optional and records the Merkle-Root of a whitelist. This allo
 | name   |    No    | Name: Human readable name of collection | 
 | type   |    No    | Type: Type of this subset. Can use it to indicate to role of NFT | 
 | supply |    No    | Supply: Supply of this subset |
-| wl     |    No    | Whitelist: The merkle root of whitelist |
 | components |  Yes | Components: Inscription IDs of image material |
 
 
@@ -338,12 +334,6 @@ Currently, two Robot World characters have already been deployed:
 By leveraging the power of CRC-721, you can continue expanding the Robot World by introducing new roles, unique traits, and diverse attributes to each character. This will enable the creation of a dynamic and immersive Robot Universe that offers endless possibilities for collectors, creators, and enthusiasts. Let your imagination soar as you contribute to the growth and evolution of this exciting digital ecosystem.
 
 # Frontend Rendering
-
-```
-// todo
-```
-
-# Whitelist
 
 ```
 // todo
