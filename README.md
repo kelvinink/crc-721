@@ -70,7 +70,7 @@ Image assets are encoded in spritesheets. Here is an example: [Spritesheet 1](ht
 
 ## Deploy-Inscription
 
-Below is an example of a Deploy-Inscription. Compared to GBRC-721, there are additional fields introduced: `type`, `wl`, and `components`. The removed information includes `trait_types` and `traits` since this information is now included within the image assets. CRC-721 utilizes the `components` field to reference one or more image assets.
+Below is an example of a Deploy-Inscription. Compared to GBRC-721, there are additional fields introduced: `type` and `components`. The removed information includes `trait_types` and `traits` since this information is now included within the image assets. CRC-721 utilizes the `components` field to reference one or more image assets.
 
 The `components` field allows for multiple Deploy-Inscriptions to reference the same image assets, increasing the reusability of image materials. Furthermore, by deploying multiple Deploy-Inscriptions and introducing new assets each time, the composability is expanded. By indirectly referring to image materials inscribed earlier, CRC-721 enables extensibility of NFT creation. This operates in a similar manner to Git, where image assets are akin to new commits, and Deploy-Inscriptions act as tags. You will observe a tree-like referencing structure similar to the diagram below:
 
@@ -335,6 +335,47 @@ By leveraging the power of CRC-721, you can continue expanding the Robot World b
 
 # Frontend Rendering
 
-```
-// todo
+This is a python example for recreating image from mint Json text.
+
+```python
+
+import requests
+from PIL import Image
+from io import BytesIO
+import json
+
+def recreate_img(mint_json, id):
+    # Step 1: Extract deploy_ins from the JSON
+    deploy_ins = mint_json["deploy_ins"]
+
+    # Step 2: Query the URL and get the deploy JSON
+    url = f"https://ordinals.com/content/{deploy_ins}"
+    response = requests.get(url)
+    print("url: ", url)
+    print(response)
+
+    try :
+        deploy_json = response.json()
+    except Exception as e:
+        return
+
+    # Step 3: Get components from the deploy JSON
+    components = deploy_json["components"]
+
+    # Step 4: Fetch sprite sheet images and store them
+    spritesheet_images = []
+    for component_id in components:
+        component_url = f"https://ordinals.com/content/{component_id}"
+        response = requests.get(component_url)
+        spritesheet_image = Image.open(BytesIO(response.content))
+        spritesheet_images.append(spritesheet_image)
+
+    # Step 5: Draw the composed image using the spritesheet images
+    composed_image = Image.new("RGBA", (32, 32))
+    for i, (spritesheet_index, component_index) in enumerate(mint_json["compose"]):
+        spritesheet_image = spritesheet_images[spritesheet_index]
+        component_image = spritesheet_image.crop((32 * component_index, 0, 32 * (component_index + 1), 32))
+        composed_image.paste(component_image, (0,0), mask=component_image)
+
+    composed_image.show()
 ```
