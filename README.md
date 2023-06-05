@@ -11,7 +11,8 @@
 
 # Contact
 
-Comment, Review, Suggestions, Know more about the protocl: Pls Join Discord: https://discord.gg/PQB2P3guPW
+Comment, Review, Suggestions, Know more about the protocl. (pls no trading discussion)
+Pls Join Discord: https://discord.gg/PQB2P3guPW
 Twitter: @kelvinaddr
 
 # Background
