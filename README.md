@@ -334,7 +334,7 @@ Currently, two Robot World characters have already been deployed:
 
 By leveraging the power of CRC-721, you can continue expanding the Robot World by introducing new roles, unique traits, and diverse attributes to each character. This will enable the creation of a dynamic and immersive Robot Universe that offers endless possibilities for collectors, creators, and enthusiasts. Let your imagination soar as you contribute to the growth and evolution of this exciting digital ecosystem.
 
-# Frontend Rendering
+# Recreating Image 
 
 This is a python example for recreating image from mint Json text.
 
