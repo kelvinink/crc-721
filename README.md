@@ -380,3 +380,82 @@ def recreate_img(mint_json, id):
 
     composed_image.show()
 ```
+
+This is a JS example for recreating image from mint Json text.
+```js
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Recreate Image</title>
+</head>
+
+<body>
+    <canvas id="canvas" width="32" height="32"></canvas>
+
+    <script>
+        async function recreateImg(mintJson, id) {
+            // Step 1: Extract deploy_ins from the JSON
+            const deployIns = mintJson['deploy_ins'];
+
+            // Step 2: Query the URL and get the deploy JSON
+            const url = `https://ordinals.com/content/${deployIns}`;
+
+            try {
+                const response = await fetch(url);
+                const deployJson = await response.json();
+
+                // Step 3: Get components from the deploy JSON
+                const components = deployJson['components'];
+
+                // Step 4: Fetch sprite sheet images and store them
+                const spriteSheetImages = [];
+                const getImagePromises = components.map(async componentId => {
+                    const componentUrl = `https://ordinals.com/content/${componentId}`;
+                    const response = await fetch(componentUrl);
+                    const blob = await response.blob();
+                    const imageUrl = URL.createObjectURL(blob);
+                    const spriteSheetImage = new Image();
+                    spriteSheetImage.onload = () => URL.revokeObjectURL(imageUrl);
+                    spriteSheetImage.src = imageUrl;
+                    await new Promise(resolve => { spriteSheetImage.onload = resolve; });
+                    spriteSheetImages.push(spriteSheetImage);
+                });
+
+                await Promise.all(getImagePromises);
+
+                // Step 5: Draw the composed image using the spritesheet images
+                const canvas = document.getElementById('canvas');
+                const ctx = canvas.getContext('2d');
+                for (let i = 0; i < mintJson['compose'].length; i++) {
+                    const [spritesheetIndex, componentIndex] = mintJson['compose'][i];
+                    const spritesheetImage = spriteSheetImages[spritesheetIndex];
+                    const componentImage = spritesheetImage;
+                    ctx.drawImage(
+                        componentImage,
+                        32 * componentIndex, 0, 32, 32,
+                        0, 0, 32, 32
+                    );
+                }
+
+                // // Step 6: Display the created image on the canvas
+                // const image = canvas.toDataURL();
+                // const imgElement = document.createElement('img');
+                // imgElement.src = image;
+                // document.body.appendChild(imgElement);
+            } catch (error) {
+                console.error('Error:', error.message);
+            }
+        }
+
+        let json_data = { "p": "crc-721", "op": "mint", "slug": "robot-world", "deploy_ins": "5c40b1bf6eca38ddeeed8b211d50232959706d63c9aded440fd54369162ffcbei0", "compose": [[0, 2], [0, 6], [0, 10], [0, 16], [0, 20]] };
+
+        recreateImg(json_data, 1)
+            .catch(error => {
+                console.error('Error:', error.message);
+            });
+    </script>
+</body>
+
+</html>
+```
