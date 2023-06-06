@@ -425,7 +425,9 @@ This is a JS example for recreating image from mint Json text.
                 await Promise.all(getImagePromises);
 
                 // Step 5: Draw the composed image using the spritesheet images
-                const canvas = document.getElementById('canvas');
+                const canvas = document.createElement('canvas'); 
+                canvas.width = 32; // Set the desired width
+                canvas.height = 32; // Set the desired height
                 const ctx = canvas.getContext('2d');
                 for (let i = 0; i < mintJson['compose'].length; i++) {
                     const [spritesheetIndex, componentIndex] = mintJson['compose'][i];
@@ -438,11 +440,11 @@ This is a JS example for recreating image from mint Json text.
                     );
                 }
 
-                // // Step 6: Display the created image on the canvas
-                // const image = canvas.toDataURL();
-                // const imgElement = document.createElement('img');
-                // imgElement.src = image;
-                // document.body.appendChild(imgElement);
+                // Step 6: Display the created image on the canvas
+                const image = canvas.toDataURL();
+                const imgElement = document.createElement('img');
+                imgElement.src = image;
+                document.body.appendChild(imgElement);
             } catch (error) {
                 console.error('Error:', error.message);
             }
