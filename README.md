@@ -329,8 +329,8 @@ CRC-721 is highly composable and extensible. We warmly welcome you to deploy mor
 
 Currently, two Robot World characters have already been deployed:
 
-1. **TV Robot**
-2. **TV Skull**
+1. **TV Robot: Vector** [Magic Eden: Vector Collection](https://magiceden.io/ordinals/marketplace/vector)
+2. **TV Skull: Vector Skull**
 
 By leveraging the power of CRC-721, you can continue expanding the Robot World by introducing new roles, unique traits, and diverse attributes to each character. This will enable the creation of a dynamic and immersive Robot Universe that offers endless possibilities for collectors, creators, and enthusiasts. Let your imagination soar as you contribute to the growth and evolution of this exciting digital ecosystem.
 
